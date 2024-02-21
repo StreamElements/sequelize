@@ -169,10 +169,13 @@ class ConnectionManager {
         }
       },
       acquire: (queryType, useMaster) => {
+        debug(`acquire called ${queryType} - ${useMaster}`);
         useMaster = useMaster === undefined ? false : useMaster;
         if (queryType === 'SELECT' && !useMaster) {
+          debug('returning read pool');
           return this.pool.read.acquire();
         }
+        debug('returning write pool');
         return this.pool.write.acquire();
       },
       destroy: connection => {
